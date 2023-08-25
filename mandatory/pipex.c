@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:52:23 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/08/25 17:26:33 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/08/25 19:02:50 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,81 @@ t_bool	check_args(int argc, char **argv, t_pipex *pipex)
 	
 }
 
+/**
+ * Function: check_args
+ * -----------------
+ * Checks if the arguments are valid.
+ *
+ * @param: argc: number of arguments.
+ * @param: argv: array of arguments.
+ * @param: pipex: pointer to the pipex struct.
+ *
+ * @return: Returns is_true if the arguments are valid, is_false otherwise.
+ *
+ */
+
+void	ft_parse_cmds(int argc, char **argv, t_pipex *pipex)
+{
+	int	i;
+
+	pipex->cmd_paths = malloc(sizeof(char *) * pipex->cmd_count);
+	if (!pipex->cmd_paths)
+	{
+		ft_putstr_fd("Error: malloc failed\n", 2);
+		return ;
+	}
+	pipex->cmd_args = malloc(sizeof(char **) * pipex->cmd_count);
+	if (!pipex->cmd_args)
+	{
+		ft_putstr_fd("Error: malloc failed\n", 2);
+		return ;
+	}
+	i = 0;
+	while (i < pipex->cmd_count)
+	{
+		pipex->cmd_paths[i] = ft_strdup(argv[i + 2]);
+		pipex->cmd_args[i] = ft_split(argv[i + 2], ' ');		
+		i++;
+	}
+	pipex->cmd_paths[i] = NULL;
+	pipex->cmd_args[i] = NULL;
+}
+
+
+void	cleanup(t_pipex *pipex)
+{
+	int	i;
+
+	i = 0;
+	if (pipex->cmd_paths)
+	{
+		while (pipex->cmd_paths[i])
+		{
+			free(pipex->cmd_paths[i]);
+			i++;
+		}
+		free(pipex->cmd_paths);
+	}
+	i = 0;
+	if (pipex->cmd_args)
+	{
+		while (pipex->cmd_args[i])
+		{
+			free(pipex->cmd_args[i]);
+		}
+	}
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 
-	if (!envp)
-	{
-		ft_putstr_fd("Error: no environment\n", 2);
-		return (1);
-	}
 	init_pipex(&pipex);
 	if (!check_args(argc, argv, &pipex))
 		return (1);
+init_pipex(&pipex);
+	if 
+	
 	
 	return (0);
 }
