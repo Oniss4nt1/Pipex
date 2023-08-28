@@ -5,6 +5,9 @@
 # include "../libft/src/ft_split.c"
 # include "../libft/src/ft_substr.c"
 # include "../libft/src/ft_strlen.c"
+# include "../libft/src/ft_strncmp.c"
+# include "../libft/src/ft_strjoin.c"
+
 
 void	free_strings(char **strs);
 

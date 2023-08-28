@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:28:28 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/08/25 16:46:16 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:15:24 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ void	init_pipex(t_pipex *pipex);
 
 t_bool	check_args(int argc, char **argv, t_pipex *pipex);
 
-//########################### PARSING ##########################################
+//########################### PARSING AND PATHS ###############################
 
-void	ft_parse_cmds(char **argv, t_pipex *pipex);
+void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp);
+char	*get_path(char **envp);
+char	*build_cmd_path(char *cmd, char **envp);
+
 
 //########################### EXECUTION ########################################
 
