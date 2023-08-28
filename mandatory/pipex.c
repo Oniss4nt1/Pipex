@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
-# include "../libft/src/ft_putstr_fd.c"
+#include <stdio.h>
 
 /**
  * Function: init_pipex
@@ -86,7 +86,7 @@ t_bool	check_args(int argc, char **argv, t_pipex *pipex)
  *
  */
 
-void	ft_parse_cmds(int argc, char **argv, t_pipex *pipex)
+void	ft_parse_cmds(char **argv, t_pipex *pipex)
 {
 	int	i;
 
@@ -114,40 +114,65 @@ void	ft_parse_cmds(int argc, char **argv, t_pipex *pipex)
 }
 
 
-void	cleanup(t_pipex *pipex)
-{
-	int	i;
 
-	i = 0;
-	if (pipex->cmd_paths)
+void	exec_cmds(t_pipex *pipex)
+{
+	int	pipefd[2];
+	pid_t	pid;
+
+	if (pipe(pipefd) == -1)
 	{
-		while (pipex->cmd_paths[i])
-		{
-			free(pipex->cmd_paths[i]);
-			i++;
-		}
-		free(pipex->cmd_paths);
+		ft_putstr_fd("Error: pipe failed\n", 2);
+		return ;
 	}
-	i = 0;
-	if (pipex->cmd_args)
+	pid = fork();
+	if (pid == -1)
 	{
-		while (pipex->cmd_args[i])
-		{
-			free(pipex->cmd_args[i]);
-		}
+		ft_putstr_fd("Error: fork failed\n", 2);
+		return ;
+	}
+	else if (pid == 0) // child
+	{
+		dup2(pipex->in_fd, STDIN_FILENO); // read from file
+		dup2(pipefd[1], STDOUT_FILENO); // write to pipe
+		close(pipefd[0]); // close read end of pipe
+		execve(pipex->cmd_paths[0], pipex->cmd_args[0], NULL); // execute cmd
+	}
+	else // parent
+	{
+		wait(NULL); // wait for child to finish
+		dup2(pipefd[0], STDIN_FILENO); // read from pipe
+		dup2(pipex->out_fd, STDOUT_FILENO); // write to file
+		close(pipefd[1]); // close write end of pipe
+		execve(pipex->cmd_paths[1], pipex->cmd_args[1], NULL); // execute cmd
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+
+int main(int argc, char **argv)
 {
-	t_pipex	pipex;
+	t_pipex pipex;
 
 	init_pipex(&pipex);
 	if (!check_args(argc, argv, &pipex))
+	{
+		cleanup(&pipex);
 		return (1);
-init_pipex(&pipex);
-	if 
-	
-	
+	}
+
+	ft_parse_cmds(argv, &pipex);
+	printf("cmd_paths[0]: %s\n", pipex.cmd_paths[0]);
+	printf("cmd_paths[1]: %s\n", pipex.cmd_paths[1]);
+	printf("cmd_paths[2]: %s\n", pipex.cmd_paths[2]);
+
+	printf("cmd_args[0][0]: %s\n", pipex.cmd_args[0][0]);
+	printf("cmd_args[0][1]: %s\n", pipex.cmd_args[0][1]);
+	printf("cmd_args[0][2]: %s\n", pipex.cmd_args[0][2]);
+
+	printf("cmd_args[1][0]: %s\n", pipex.cmd_args[1][0]);
+	printf("cmd_args[1][1]: %s\n", pipex.cmd_args[1][1]);
+	printf("cmd_args[1][2]: %s\n", pipex.cmd_args[1][2]);
+	exec_cmds(&pipex);
+	cleanup(&pipex);
 	return (0);
 }

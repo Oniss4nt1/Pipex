@@ -46,3 +46,15 @@ void	init_pipex(t_pipex *pipex);
 
 t_bool	check_args(int argc, char **argv, t_pipex *pipex);
 
+//########################### PARSING ##########################################
+
+void	ft_parse_cmds(char **argv, t_pipex *pipex);
+
+//########################### EXECUTION ########################################
+
+void	exec_cmds(t_pipex *pipex);
+
+//########################### FREE #############################################
+
+void	cleanup(t_pipex *pipex);
+void	free_strings(char **strs);
