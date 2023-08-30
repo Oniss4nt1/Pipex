@@ -54,11 +54,11 @@ norm:
 
 clean:
 	@rm -f $(OBJ)
-	@echo "$(RED)Libft objects deleted$(WHITE)"
+	@echo "$(YELLOW)Libft objects deleted$(WHITE)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(RED)Libft deleted$(WHITE)"
+	@echo "$(YELLOW)Libft deleted$(WHITE)"
 
 re: fclean all
 	@echo "$(BLUE)Libft recompiled$(WHITE)"
