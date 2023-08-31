@@ -1,4 +1,20 @@
-#include "pipex.h"
+#include "pipex_bonus.h"
+#include "../libft/include/libft.h"
+#include "../libft/src/ft_split.c"
+#include "../libft/src/ft_strjoin.c"
+#include "../libft/src/ft_strncmp.c"
+#include "../libft/src/ft_putstr_fd.c"
+#include "../libft/src/ft_substr.c"
+#include "../libft/src/ft_strlen.c"
+#include "../libft/src/ft_strdup.c"
+
+
+
+
+
+
+
+
 
 int	main(int argc, char **argv, char **envp)
 {

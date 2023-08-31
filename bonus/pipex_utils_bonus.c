@@ -1,4 +1,4 @@
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 char	*get_path(char **envp)
 {
@@ -47,7 +47,7 @@ void	cleanup(t_pipex *pipex)
 	i = 0;
 	if (pipex->cmd_paths)
 	{
-		while (pipex->cmd_paths[i])
+		while (i < pipex->cmd_count)
 		{
 			free(pipex->cmd_paths[i]);
 			i++;
@@ -57,7 +57,7 @@ void	cleanup(t_pipex *pipex)
 	i = 0;
 	if (pipex->cmd_args)
 	{
-		while (pipex->cmd_args[i])
+		while (i < pipex->cmd_count)
 		{
 			free_strings(pipex->cmd_args[i]);
 			i++;

@@ -53,7 +53,7 @@ char		*build_cmd_path(char *cmd, char **envp);
 //########################### EXECUTION ########################################
 
 void		exec_cmds(t_pipex *pipex);
-void		exec_child(t_pipex *pipex, int pipefd[2]);
+void		exec_child(t_pipex *pipex, int pipefd[2], int i);
 void		exec_parents(t_pipex *pipex, int pipefd[2]);
 
 //########################### FREE #############################################
