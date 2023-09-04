@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:28:28 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/08/28 17:15:24 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/04 18:54:13 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ char		*build_cmd_path(char *cmd, char **envp);
 //########################### EXECUTION ########################################
 
 void		exec_cmds(t_pipex *pipex);
-void		exec_child(t_pipex *pipex, int pipefd[2], int i);
-void    	exec_parents(t_pipex *pipex, int pipefd[2], int i, pid_t pid);
+void 	exec_child(t_pipex *pipex, int current_int_fd, int *fd, int i);
+void    exec_parent(pid_t pid, int *fd, int *current_in_fd, int *status);
 
 //########################### FREE #############################################
 

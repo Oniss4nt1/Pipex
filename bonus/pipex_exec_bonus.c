@@ -1,80 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_exec_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 17:45:37 by brunrodr          #+#    #+#             */
+/*   Updated: 2023/09/04 18:54:26 by brunrodr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
 #include <stdio.h>
 
-void exec_cmds(t_pipex *pipex)
+void    exec_cmds(t_pipex *pipex)
 {
     int i;
-    int pipefd[2];
+    int fd[2];
     pid_t pid;
-
-    i = 0;
-    while (i < pipex->cmd_count)
-    {
-        if (pipe(pipefd) == -1)
-        {
-            ft_putstr_fd("Error: pipe failed\n", 2);
-            return ;
-        }
-        pid = fork();
-        if (pid == -1)
-        {
-            ft_putstr_fd("Error: fork failed\n", 2);
-            return ;
-        }
-        if (pid == 0)
-            exec_child(pipex, pipefd, i);
-        else
-        {
-            exec_parents(pipex, pipefd, i, pid);
-            if (i != pipex->cmd_count - 1)
-                close(pipefd[1]);
-        }
-        i++;
-    }
-    close(pipex->in_fd);
-    close(pipex->out_fd);
-}
-
-void    exec_child(t_pipex *pipex, int pipefd[2], int i)
-{
-    if (i == 0)
-    {
-        if (dup2(pipex->in_fd, STDIN_FILENO) == -1)
-        {
-            ft_putstr_fd("Error: dup2 failed\n", 2);
-            return ;
-        }
-    }
-    if (i != pipex->cmd_count -1)
-    {
-        if (dup2(pipefd[1], STDOUT_FILENO) == -1)
-        {
-            ft_putstr_fd("Error: dup2 failed\n", 2);
-            return ;
-        }
-    }
-    else
-    {
-        if (dup2(pipex->out_fd, STDOUT_FILENO) == -1)
-        {
-            ft_putstr_fd("Error: dup2 failed\n", 2);
-            return ;
-        }
-    }
-    close(pipefd[0]);
-    close(pipefd[1]);
-    execve(pipex->cmd_paths[i], pipex->cmd_args[i], NULL);
-}
-
-void exec_parents(t_pipex *pipex, int pipefd[2], int i, pid_t pid)
-{
+    int current_in_fd;
     int status;
 
-    waitpid(pid, &status, 0);
+    i = 0;
+    current_in_fd = pipex->in_fd;
+    while (i < pipex->cmd_count)
+    {
+        pipe(fd);
+        pid = fork();
+        if (pid == 0)
+            exec_child(pipex, current_in_fd, fd, i);
+        else if (pid < 0)
+            exit(1);
+        else
+            exec_parent(pid, fd, &current_in_fd, &status);
+        i++;
+    }
+}
 
-    if (i != 0)
-        close(pipefd[0]);
-    if (i != pipex->cmd_count - 1)
-        close(pipefd[1]);
-    pipex->in_fd = pipefd[0];
+void exec_child(t_pipex *pipex, int current_int_fd, int *fd, int i)
+{
+    dup2(current_int_fd, STDIN_FILENO);
+    if (i + 1 != pipex->cmd_count)
+        dup2(fd[1], STDOUT_FILENO);
+    else
+        dup2(pipex->out_fd, STDOUT_FILENO);
+    close(fd[0]);
+    close(fd[1]);
+    execve(pipex->cmd_paths[i], pipex->cmd_args[i], NULL);
+    exit(1);
+}
+
+void    exec_parent(pid_t pid, int *fd, int *current_in_fd, int *status)
+{
+    waitpid(pid, status, WNOHANG);
+    close(fd[1]);
+    *current_in_fd = fd[0];
 }
