@@ -82,7 +82,6 @@ void	exec_child(t_pipex *pipex, int pipefd[2])
 		return ;
 	}
 	execve(pipex->cmd_paths[0], pipex->cmd_args[0], NULL);
-	free(pipex->cmd_paths[0]);
 }
 
 /**
@@ -103,14 +102,30 @@ void	exec_child(t_pipex *pipex, int pipefd[2])
 
 void	exec_parents(t_pipex *pipex, int pipefd[2])
 {
-	dup2(pipefd[0], STDIN_FILENO);
-	dup2(pipex->out_fd, STDOUT_FILENO);
-	close(pipefd[1]);
-	if (!pipex->cmd_paths[1])
+	int	status;
+	pid_t	pid;
+
+	pid = wait(&status);
+	if (pid == -1)
 	{
-		ft_putstr_fd("Error: command not found\n", 2);
+		ft_putstr_fd("Error: wait failed\n", 2);
 		return ;
 	}
-	execve(pipex->cmd_paths[1], pipex->cmd_args[1], NULL);
-	free(pipex->cmd_paths[1]);
+	else
+	{
+		if (dup2(pipefd[0], STDIN_FILENO) == -1)
+		{
+			ft_putstr_fd("Error: dup2 failed\n", 2);
+			return ;
+		}
+		dup2(pipex->out_fd, STDOUT_FILENO);
+		close(pipefd[1]);
+		if (!pipex->cmd_paths[1])
+		{
+			ft_putstr_fd("Error: command not found\n", 2);
+			return ;
+		}
+		execve(pipex->cmd_paths[1], pipex->cmd_args[1], NULL);
+	}
+	
 }

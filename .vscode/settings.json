@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "libft.h": "c",
-        "pipex_bonus.h": "c"
+        "pipex_bonus.h": "c",
+        "cstdlib": "c"
     }
 }

@@ -85,7 +85,7 @@ void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 {
 	int	i;
 
-	pipex->cmd_paths = malloc(sizeof(char **) * pipex->cmd_count);
+	pipex->cmd_paths = malloc(sizeof(char *) * pipex->cmd_count);
 	if (!pipex->cmd_paths)
 	{
 		ft_putstr_fd("Error: malloc failed\n", 2);

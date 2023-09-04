@@ -1,0 +1,6 @@
+==7709== Memcheck, a memory error detector
+==7709== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==7709== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==7709== Command: ./pipex infile cat tr\ a-z\ A-Z outfile_result
+==7709== Parent PID: 6072
+==7709== 

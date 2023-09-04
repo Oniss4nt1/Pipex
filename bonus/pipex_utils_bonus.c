@@ -20,14 +20,16 @@ char	*build_cmd_path(char *cmd, char **envp)
 	char	*path;
 	char	**dirs;
 	char	*cmd_path;
+	char	*temp;
 
 	i = 0;
 	path = get_path(envp);
 	dirs = ft_split(path, ':');
 	while (dirs[i])
 	{
-		cmd_path = ft_strjoin(dirs[i], "/");
-		cmd_path = ft_strjoin(cmd_path, cmd);
+		temp = ft_strjoin(dirs[i], "/");
+		cmd_path = ft_strjoin(temp, cmd);
+		free(temp);
 		if (access(cmd_path, F_OK) == 0)
 		{
 			free_strings(dirs);
@@ -40,6 +42,7 @@ char	*build_cmd_path(char *cmd, char **envp)
 	return (NULL);
 }
 
+//refatorar
 void	cleanup(t_pipex *pipex)
 {
 	int	i;
