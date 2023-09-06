@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:50 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/05 18:49:14 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:35:22 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@
 #include "../libft/src/ft_substr.c"
 #include "../libft/src/ft_strlen.c"
 #include "../libft/src/ft_strdup.c"
-
-
-
-
 
 
 

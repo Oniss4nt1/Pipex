@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:37 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/05 18:49:02 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:07:49 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ void    exec_cmds(t_pipex *pipex)
 
     i = 0;
     current_in_fd = pipex->in_fd;
+
+    if (pipex->here_doc)
+        handle_heredoc(pipex);
     while (i < pipex->cmd_count)
     {
         pipe(fd);

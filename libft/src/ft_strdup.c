@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:27:06 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/07/20 14:45:46 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/06 10:59:54 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,10 @@ char	*ft_strdup(const char *s)
 
 	len = 0;
 	while (s[len] != '\0')
-	{
 		len++;
-	}
 	str = malloc(len + 1);
 	if (str == NULL)
-	{
 		return (NULL);
-	}
 	p = str;
 	while (*s != '\0')
 	{

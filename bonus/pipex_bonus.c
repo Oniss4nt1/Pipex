@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:52:23 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/05 18:48:55 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/06 11:12:52 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	init_pipex(t_pipex *pipex)
 	pipex->cmd_count = 0;
 	pipex->cmd_paths = NULL;
 	pipex->cmd_args = NULL;
+	pipex->here_doc = NULL;
 }
 
 /**
@@ -53,6 +54,20 @@ t_bool	check_args(int argc, char **argv, t_pipex *pipex)
 		ft_putstr_fd("Error: wrong number of arguments\n", 2);
 		return (is_false);
 	}
+	else if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		pipex->here_doc = ft_strdup(argv[2]);
+		pipex->in_fd = 0;
+		pipex->out_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (pipex->out_fd == -1)
+		{
+			ft_putstr_fd("Error: can't open output file\n", 2);
+			return (is_false);
+		}
+		pipex->cmd_count = argc - 4;
+		return (is_true);
+	}
+	
 	pipex->in_fd = open(argv[1], O_RDONLY);
 	if (pipex->in_fd == -1)
 	{

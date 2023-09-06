@@ -10,6 +10,7 @@ RESET    = \033[0m
 ############################# Project files ################################
 
 NAME        = pipex
+NAME_BONUS  = pipex_bonus
 LIBFT 		= ./libft
 PIPEX 		= ./
 HEADER 		= ./mandatory/
@@ -19,12 +20,15 @@ HEADER 		= ./mandatory/
 
 SUBDIRS       = mandatory bonus
 MAND_SRCS     = pipex.c pipex_utils.c pipex_exec.c main.c
-# BONUS_SRCS    = check_chars.c check_map.c check_path.c
-SRCS = $(addprefix ./mandatory/, $(MAND_SRCS))
+BONUS_SRCS    = pipex_bonus.c pipex_utils_bonus.c pipex_exec_bonus.c heredoc_bonus.c main_bonus.c
+
+SRCS 			= $(addprefix ./mandatory/, $(MAND_SRCS))
+SRCS_BONUS 		= $(addprefix ./bonus/, $(BONUS_SRCS))
 
 ############################# Objects #######################################
 
 OBJS = $(SRCS:.c=.o)
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 OBJDIR = ./objs
 
 ############################# Compilation ##################################
@@ -38,20 +42,33 @@ LIBFT_LIB = $(LIBFT)/libft.a
 ############################# Rules ########################################
 
 all: $(NAME)
+	@echo "$(BLUE)Mandatory compiled$(RESET)"
 
 $(NAME): $(LIBFT_LIB) $(OBJS:%=$(OBJDIR)/%)
 	@echo "$(BLUE)Compiling pipex...$(RESET)"
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS:%=$(OBJDIR)/%) -I $(HEADER) -L $(LIBFT) -lft
-	@echo "$(GREEN)pipex compiled$(RESET)"
+	@echo "$(GREEN)Done!$(RESET)"
 
 $(LIBFT_LIB):
 	@echo "$(BLUE)Compiling Libft...$(RESET)"
-	@$(LIBFT_MAKE)
+	@$(LIBFT_MAKE) 
 	@echo "$(GREEN)Libft compiled$(RESET)"
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER)
+
+############################# Norm rules ####################################
+
+$(NAME_BONUS): $(LIBFT_LIB) $(OBJS_BONUS:%=$(OBJDIR)/%)
+	@echo "$(BLUE)Compiling bonus...$(RESET)"
+	@$(CC) $(CFLAGS) -o $(NAME_BONUS) $(OBJS_BONUS:%=$(OBJDIR)/%) -I $(HEADER) -L $(LIBFT) -lft
+	@echo "$(GREEN)Done!$(RESET)"
+
+bonus: $(NAME_BONUS)
+	@echo "$(BLUE)Bonus compiled!$(RESET)"
+
+
 
 ############################# Norm rules ####################################
 
@@ -70,12 +87,12 @@ leaks:
 ############################# Clean rules ###################################
 
 clean:
-	@rm -rf $(OBJDIR)
+	@rm -rf $(OBJDIR) $(OBJDIR_BONUS)
 	@echo "$(YELLOW )pipex objects deleted$(RESET)"
 	@$(LIBFT_MAKE) clean
 
 fclean: clean
-	@rm -f $(LIBFT_LIB) $(NAME)
+	@rm -f $(LIBFT_LIB) $(NAME) $(NAME_BONUS)
 	@echo "$(YELLOW)pipex deleted$(RESET)"
 	@$(LIBFT_MAKE) fclean
 

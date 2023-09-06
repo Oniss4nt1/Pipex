@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:28:28 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/05 18:48:59 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:53:27 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_pipex
 	int		cmd_count;
 	char	**cmd_paths;
 	char	***cmd_args;
+	char	*here_doc;
 }			t_pipex;
 
 //########################### FUNCTIONS ########################################
@@ -53,8 +54,15 @@ char		*build_cmd_path(char *cmd, char **envp);
 //########################### EXECUTION ########################################
 
 void		exec_cmds(t_pipex *pipex);
-void 	exec_child(t_pipex *pipex, int current_int_fd, int *fd, int i);
-void    exec_parent(pid_t pid, int *fd, int *current_in_fd, int *status);
+void 		exec_child(t_pipex *pipex, int current_int_fd, int *fd, int i);
+void    	exec_parent(pid_t pid, int *fd, int *current_in_fd, int *status);
+
+//########################### HEREDOC ##########################################
+
+void		handle_heredoc(t_pipex *pipex);
+
+
+
 
 //########################### FREE #############################################
 
