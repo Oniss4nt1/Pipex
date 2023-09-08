@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:28:28 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/06 14:53:27 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:08:04 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ void    	exec_parent(pid_t pid, int *fd, int *current_in_fd, int *status);
 
 //########################### HEREDOC ##########################################
 
-void		handle_heredoc(t_pipex *pipex);
-
-
-
+void	handle_heredoc(t_pipex *pipex);
 
 //########################### FREE #############################################
 

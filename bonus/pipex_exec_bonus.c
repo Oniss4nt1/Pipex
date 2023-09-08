@@ -6,12 +6,11 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:37 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/06 14:07:49 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:23:40 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <stdio.h>
 
 void    exec_cmds(t_pipex *pipex)
 {
@@ -23,15 +22,15 @@ void    exec_cmds(t_pipex *pipex)
 
     i = 0;
     current_in_fd = pipex->in_fd;
-
-    if (pipex->here_doc)
-        handle_heredoc(pipex);
+    
     while (i < pipex->cmd_count)
     {
         pipe(fd);
         pid = fork();
         if (pid == 0)
+        {
             exec_child(pipex, current_in_fd, fd, i);
+        }
         else if (pid < 0)
             exit(1);
         else
@@ -50,6 +49,7 @@ void exec_child(t_pipex *pipex, int current_int_fd, int *fd, int i)
     close(fd[0]);
     close(fd[1]);
     execve(pipex->cmd_paths[i], pipex->cmd_args[i], NULL);
+    
     exit(1);
 }
 

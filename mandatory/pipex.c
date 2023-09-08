@@ -6,11 +6,13 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:52:23 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/08/28 17:15:24 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:28:40 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	command_not_found(t_pipex *pipex);
 
 /**
  * Function: init_pipex
@@ -85,23 +87,35 @@ void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 {
 	int	i;
 
-	pipex->cmd_paths = malloc(sizeof(char *) * pipex->cmd_count);
-	if (!pipex->cmd_paths)
-	{
-		ft_putstr_fd("Error: malloc failed\n", 2);
-		return ;
-	}
-	pipex->cmd_args = malloc(sizeof(char **) * pipex->cmd_count);
-	if (!pipex->cmd_args)
-	{
-		ft_putstr_fd("Error: malloc failed\n", 2);
-		return ;
-	}
 	i = 0;
+	pipex->cmd_paths = malloc(sizeof(char *) * (pipex->cmd_count + 1));
+	pipex->cmd_args = malloc(sizeof(char **) * (pipex->cmd_count + 1));
+	if (!pipex->cmd_paths || !pipex->cmd_args)
+	{
+		ft_putstr_fd("Error: malloc failed\n", 2);
+		return ;
+	}
 	while (i < pipex->cmd_count)
 	{
 		pipex->cmd_args[i] = ft_split(argv[i + 2], ' ');
 		pipex->cmd_paths[i] = build_cmd_path(pipex->cmd_args[i][0], envp);
+        if (!pipex->cmd_paths[i])
+        {
+            command_not_found(pipex);
+            exit(1);
+        }
 		i++;
 	}
+	pipex->cmd_paths[i] = NULL;
+	pipex->cmd_args[i] = NULL;
+
+}
+
+void	command_not_found(t_pipex *pipex)
+{
+	ft_putstr_fd("Error: command not found\n", 2);
+	cleanup(pipex);
+	close(pipex->in_fd);
+	close(pipex->out_fd);
+	exit(1);
 }

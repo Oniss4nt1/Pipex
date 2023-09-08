@@ -7,14 +7,18 @@ RED             = \033[1;31m
 RESET           = \033[0m
 
 ############################# Project files ################################
-SRC             = ../mandatory/pipex_utils.c ../mandatory/pipex.c ../mandatory/pipex_exec.c
+SRC             = ../mandatory/pipex_utils.c ../mandatory/pipex.c ../mandatory/pipex_exec.c ../mandatory/pipex_free.c \
+# SRC_BONUS		= ../bonus/pipex_bonus.c ../bonus/pipex_utils_bonus.c ../bonus/pipex_exec_bonus.c 
+
 HEADER_PROJECT  = ../mandatory/pipex.h
+# HEADER_BONUS	= ../bonus/pipex_bonus.h
 
 ############################# Test files ###################################
 
 TESTS           = test_cat_and_sort.c test_grep_backslash.c \
                   test_echo_grep_bslash.c test_list_and_count.c \
-				  test_list_and_filter_c_files.c test_lower_text_to_upper.c 
+				  test_list_and_filter_c_files.c test_lower_text_to_upper.c \
+				  test_invalid_cmd.c test_awk_and_printf.c
 
 PROGRAM_TEST    = $(patsubst %.c, %, $(TESTS))
 HEADER_MINUNIT  = ../minunit.h
@@ -42,7 +46,7 @@ test: $(TEST_PROGRAMS)
 
 
 leak: test
-	valgrind --track-origins=yes --error-exitcode=42 --leak-check=full ./${PROGRAM_TEST}
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes -s -q ./${PROGRAM_TEST}
 
 clean-pipex:
 	$(MAKE) -C .. fclean

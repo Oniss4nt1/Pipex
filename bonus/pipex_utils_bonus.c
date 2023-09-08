@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:42 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/05 18:49:07 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:54:46 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ void	cleanup(t_pipex *pipex)
 		while (i < pipex->cmd_count)
 		{
 			free(pipex->cmd_paths[i]);
+			pipex->cmd_paths[i] = NULL;
 			i++;
 		}
 		free(pipex->cmd_paths);
+		pipex->cmd_paths = NULL;
 	}
 	i = 0;
 	if (pipex->cmd_args)
@@ -75,9 +77,11 @@ void	cleanup(t_pipex *pipex)
 		while (i < pipex->cmd_count)
 		{
 			free_strings(pipex->cmd_args[i]);
+			pipex->cmd_args[i] = NULL;
 			i++;
 		}
 		free(pipex->cmd_args);
+		pipex->cmd_args = NULL;
 	}
 }
 

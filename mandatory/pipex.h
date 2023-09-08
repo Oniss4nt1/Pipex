@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:28:28 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/08/28 17:15:24 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:21:16 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		init_pipex(t_pipex *pipex);
 //########################### CHECKS ###########################################
 
 t_bool		check_args(int argc, char **argv, t_pipex *pipex);
+void		command_not_found(t_pipex *pipex);
 
 //########################### PARSING AND PATHS ###############################
 

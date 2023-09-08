@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 18:48:21 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/06 14:01:55 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:52:29 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,21 @@ void	exec_cmds(t_pipex *pipex)
 	if (pipe(pipefd) == -1)
 	{
 		ft_putstr_fd("Error: pipe failed\n", 2);
-		return ;
+		close(pipefd[0]);
+		close(pipefd[1]);
+		close(pipex->in_fd);
+		close(pipex->out_fd);
+		exit(1);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		ft_putstr_fd("Error: fork failed\n", 2);
-		return ;
+		close(pipefd[0]);
+		close(pipefd[1]);
+		close(pipex->in_fd);
+		close(pipex->out_fd);
+		exit(1);
 	}
 	else if (pid == 0)
 		exec_child(pipex, pipefd);
@@ -86,7 +94,9 @@ void	exec_cmds(t_pipex *pipex)
 void	exec_child(t_pipex *pipex, int pipefd[2])
 {
 	dup2(pipex->in_fd, STDIN_FILENO);
+	close(pipex->in_fd);
 	dup2(pipefd[1], STDOUT_FILENO);
+	close(pipex->out_fd);
 	close(pipefd[0]);
 	if (!pipex->cmd_paths[0])
 	{
@@ -114,7 +124,7 @@ void	exec_child(t_pipex *pipex, int pipefd[2])
 
 void	exec_parents(t_pipex *pipex, int pipefd[2])
 {
-	int	status;
+	int		status;
 	pid_t	pid;
 
 	pid = wait(&status);
@@ -123,21 +133,15 @@ void	exec_parents(t_pipex *pipex, int pipefd[2])
 		ft_putstr_fd("Error: wait failed\n", 2);
 		return ;
 	}
-	else
+	close(pipefd[1]);
+	dup2(pipefd[0], STDIN_FILENO);
+	close(pipefd[0]);
+	dup2(pipex->out_fd, STDOUT_FILENO);
+	close(pipex->out_fd);
+	if (!pipex->cmd_paths[1])
 	{
-		if (dup2(pipefd[0], STDIN_FILENO) == -1)
-		{
-			ft_putstr_fd("Error: dup2 failed\n", 2);
-			return ;
-		}
-		dup2(pipex->out_fd, STDOUT_FILENO);
-		close(pipefd[1]);
-		if (!pipex->cmd_paths[1])
-		{
-			ft_putstr_fd("Error: command not found\n", 2);
-			return ;
-		}
-		execve(pipex->cmd_paths[1], pipex->cmd_args[1], NULL);
+		ft_putstr_fd("Error: command not found\n", 2);
+		command_not_found(pipex);
 	}
-	
+	execve(pipex->cmd_paths[1], pipex->cmd_args[1], NULL);
 }

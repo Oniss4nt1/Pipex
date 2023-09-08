@@ -6,23 +6,11 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:50 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/06 18:35:22 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:07:21 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include "../libft/include/libft.h"
-#include "../libft/src/ft_split.c"
-#include "../libft/src/ft_strjoin.c"
-#include "../libft/src/ft_strncmp.c"
-#include "../libft/src/ft_putstr_fd.c"
-#include "../libft/src/ft_substr.c"
-#include "../libft/src/ft_strlen.c"
-#include "../libft/src/ft_strdup.c"
-
-
-
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -34,8 +22,12 @@ int	main(int argc, char **argv, char **envp)
 		cleanup(&pipex);
 		return (1);
 	}
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+		handle_heredoc(&pipex);
 	ft_parse_cmds(argv, &pipex, envp);
 	exec_cmds(&pipex);
+	close(pipex.in_fd);
+	close(pipex.out_fd);
 	cleanup(&pipex);
 	return (0);
 }
