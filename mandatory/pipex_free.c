@@ -30,11 +30,19 @@ void	free_cmd_paths(t_pipex *pipex)
 void	free_cmd_args(t_pipex *pipex)
 {
 	int	i;
+	int j;
 
 	i = 0;
 	while (pipex->cmd_args[i])
 	{
-		free_strings(pipex->cmd_args[i]);
+		j = 0;
+		while (pipex->cmd_args[i][j])
+		{
+			free(pipex->cmd_args[i][j]);
+			pipex->cmd_args[i][j] = NULL;
+			j++;
+		}
+		free(pipex->cmd_args[i]);
 		pipex->cmd_args[i] = NULL;
 		i++;
 	}

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <stdio.h>
 
 void	command_not_found(t_pipex *pipex);
 
@@ -86,8 +87,10 @@ t_bool	check_args(int argc, char **argv, t_pipex *pipex)
 void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 {
 	int	i;
+	int j;
 
 	i = 0;
+	j = 0;
 	pipex->cmd_paths = malloc(sizeof(char *) * (pipex->cmd_count + 1));
 	pipex->cmd_args = malloc(sizeof(char **) * (pipex->cmd_count + 1));
 	if (!pipex->cmd_paths || !pipex->cmd_args)
@@ -95,20 +98,27 @@ void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 		ft_putstr_fd("Error: malloc failed\n", 2);
 		return ;
 	}
+
+	while (j < pipex->cmd_count + 1)
+	{
+		pipex->cmd_paths[j] = NULL;
+		pipex->cmd_args[j] = NULL;
+		j++;
+	}
+
 	while (i < pipex->cmd_count)
 	{
 		pipex->cmd_args[i] = ft_split(argv[i + 2], ' ');
 		pipex->cmd_paths[i] = build_cmd_path(pipex->cmd_args[i][0], envp);
-        if (!pipex->cmd_paths[i])
-        {
-            command_not_found(pipex);
-            exit(1);
-        }
+		if (!pipex->cmd_paths[i])
+		{
+			command_not_found(pipex);
+			exit(1);
+		}
 		i++;
 	}
 	pipex->cmd_paths[i] = NULL;
 	pipex->cmd_args[i] = NULL;
-
 }
 
 void	command_not_found(t_pipex *pipex)

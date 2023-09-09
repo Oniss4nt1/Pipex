@@ -35,6 +35,8 @@ char	*build_cmd_path(char *cmd, char **envp)
 	char	*temp;
 
 	i = 0;
+	if (!cmd || !*cmd)
+		return (NULL);
 	path = get_path(envp);
 	dirs = ft_split(path, ':');
 	while (dirs[i])
