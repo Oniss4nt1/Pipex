@@ -53,8 +53,6 @@ void	exec_cmds(t_pipex *pipex)
 	if (pipe(pipefd) == -1)
 	{
 		ft_putstr_fd("Error: pipe failed\n", 2);
-		close(pipefd[0]);
-		close(pipefd[1]);
 		close(pipex->in_fd);
 		close(pipex->out_fd);
 		exit(1);

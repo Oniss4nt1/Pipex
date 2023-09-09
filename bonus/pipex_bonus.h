@@ -44,6 +44,8 @@ void		init_pipex(t_pipex *pipex);
 //########################### CHECKS ###########################################
 
 t_bool		check_args(int argc, char **argv, t_pipex *pipex);
+void		command_not_found(t_pipex *pipex);
+
 
 //########################### PARSING AND PATHS ###############################
 

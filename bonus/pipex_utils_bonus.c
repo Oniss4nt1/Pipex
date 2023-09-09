@@ -35,6 +35,8 @@ char	*build_cmd_path(char *cmd, char **envp)
 	char	*temp;
 
 	i = 0;
+	if (!cmd || !*cmd)
+		return (NULL);
 	path = get_path(envp);
 	dirs = ft_split(path, ':');
 	while (dirs[i])
@@ -55,48 +57,4 @@ char	*build_cmd_path(char *cmd, char **envp)
 }
 
 //refatorar
-void	cleanup(t_pipex *pipex)
-{
-	int	i;
 
-	i = 0;
-	if (pipex->cmd_paths)
-	{
-		while (i < pipex->cmd_count)
-		{
-			free(pipex->cmd_paths[i]);
-			pipex->cmd_paths[i] = NULL;
-			i++;
-		}
-		free(pipex->cmd_paths);
-		pipex->cmd_paths = NULL;
-	}
-	i = 0;
-	if (pipex->cmd_args)
-	{
-		while (i < pipex->cmd_count)
-		{
-			free_strings(pipex->cmd_args[i]);
-			pipex->cmd_args[i] = NULL;
-			i++;
-		}
-		free(pipex->cmd_args);
-		pipex->cmd_args = NULL;
-	}
-}
-
-void	free_strings(char **strs)
-{
-	int	i;
-
-	i = 0;
-	if (strs)
-	{
-		while (strs[i])
-		{
-			free(strs[i]);
-			i++;
-		}
-		free(strs);
-	}
-}

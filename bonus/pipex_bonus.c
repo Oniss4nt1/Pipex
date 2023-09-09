@@ -81,20 +81,6 @@ t_bool	check_args(int argc, char **argv, t_pipex *pipex)
 	return (is_true);
 }
 
-	// else if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-	// {
-	// 	pipex->here_doc = ft_strdup(argv[2]);
-	// 	pipex->in_fd = 
-	// 	pipex->out_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// 	if (pipex->out_fd == -1)
-	// 	{
-	// 		ft_putstr_fd("Error: can't open output file\n", 2);
-	// 		return (is_false);
-	// 	}
-	// 	pipex->cmd_count = argc - 4;
-	// 	return (is_true);
-	// }
-
 /**
  * Function: check_args
  * -----------------
@@ -111,16 +97,28 @@ t_bool	check_args(int argc, char **argv, t_pipex *pipex)
 void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 {
 	int	i;
+	int j;
 	int arg_index;
 
 	i = 0;
-	pipex->cmd_paths = malloc(sizeof(char **) * pipex->cmd_count + 1);
-	pipex->cmd_args = malloc(sizeof(char **) * pipex->cmd_count + 1);
+	j = 0;
+	arg_index = 0;
+	pipex->cmd_paths = malloc(sizeof(char *) * (pipex->cmd_count + 1));
+	pipex->cmd_args = malloc(sizeof(char **) * (pipex->cmd_count + 1));
 	if (!pipex->cmd_paths || !pipex->cmd_args)
 	{
 		ft_putstr_fd("Error: malloc failed\n", 2);
 		return ;
 	}
+
+	j = 0;
+	while (j < pipex->cmd_count + 1)
+	{
+		pipex->cmd_paths[j] = NULL;
+		pipex->cmd_args[j] = NULL;
+		j++;
+	}
+
 	while (i < pipex->cmd_count)
 	{
 		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
@@ -130,17 +128,22 @@ void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 
 		pipex->cmd_args[i] = ft_split(argv[arg_index], ' ');
 		pipex->cmd_paths[i] = build_cmd_path(pipex->cmd_args[i][0], envp);
+		if(!pipex->cmd_paths[i])
+		{
+			command_not_found(pipex);
+			exit(1);
+		}
 		i++;
 	}
 	pipex->cmd_paths[i] = NULL;
 	pipex->cmd_args[i] = NULL;
+}
 
-	if (pipex->cmd_paths[0] == NULL)
-	{
-		ft_putstr_fd("Error: command not found\n", 2);
-		cleanup(pipex);
-		close(pipex->in_fd);
-		close(pipex->out_fd);
-		exit(1);
-	}
+void	command_not_found(t_pipex *pipex)
+{
+	ft_putstr_fd("Error: command not found\n", 2);
+	cleanup(pipex);
+	close(pipex->in_fd);
+	close(pipex->out_fd);
+	exit(1);
 }
