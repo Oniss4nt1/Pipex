@@ -47,15 +47,18 @@ void		command_not_found(t_pipex *pipex);
 
 //########################### PARSING AND PATHS ###############################
 
+void		allocate_memory(t_pipex *pipex);
+void		ft_initialize_memory(t_pipex *pipex);
 void		ft_parse_cmds(char **argv, t_pipex *pipex, char **envp);
-char		*get_path(char **envp);
+char		*search_path(char **envp);
+char		*test_cmd_path(char **dirs, char *cmd);
 char		*build_cmd_path(char *cmd, char **envp);
 
 //########################### EXECUTION ########################################
 
 void		exec_cmds(t_pipex *pipex);
-void		exec_child(t_pipex *pipex, int pipefd[2]);
-void		exec_parents(t_pipex *pipex, int pipefd[2]);
+void		child_process(t_pipex *pipex, int pipefd[2]);
+void		parent_process(t_pipex *pipex, int pipefd[2]);
 
 //########################### FREE #############################################
 

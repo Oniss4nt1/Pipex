@@ -14,6 +14,24 @@
 #include <string.h>
 #include <stdio.h>
 
+/**
+ * Function: handle_heredoc
+ * -----------------
+ * This function is used to handle the here_doc argument. It reads from the
+ * standard input until the here_doc string (aka EOF or end of file) is found.
+ * The function uses get_next_line() to read from the standard input. The
+ * function uses a pipe to store the input from the standard input, and then
+ * 
+ *
+ * @param: *pipex: pointer to the pipex struct.
+ * @var: *line: pointer to the string that will store the input from the 
+ * standard input.
+ * @var: fd[2]: array of two integers that will be used to store
+ *
+ * @return: This is a void function, so it does not return a value.
+ *
+ */
+
 void	handle_heredoc(t_pipex *pipex)
 {
 	char	*line;

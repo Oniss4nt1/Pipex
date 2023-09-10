@@ -1,0 +1,18 @@
+################## files ########################
+*.out
+*.log
+*.aux
+*.txt
+infile
+outfile
+outfile_expected
+outfile_result
+
+################## directories ##################
+./objs
+./.vscode
+
+################## executables ##################
+./a.out
+./pipex
+./pipex_bonus

@@ -15,66 +15,44 @@
 /**
  * Function: exec_cmds
  * -----------------
- * Function that executes the commands. This function uses fork() to create a
- * child process and then uses execve() to execute the commands. The parent
- * process waits for the child process to finish, and then executes the second
- * command.
- * 
- * The function uses the following variables:
- * - pipefd: array of two integers that will be used to store the file
- * descriptors of the pipe.
- * 
- * - pid: variable that will store the process id of the child process.
- * 
- * - STDIN_FILENO: macro that represents the file descriptor of the standard
- * input.
- * 
- * - STDOUT_FILENO: macro that represents the file descriptor of the standard
- * output.
+ * This function is resposible for create pipes for communication between the
+ * commands and creates fork processes. Forks in a nutshell are used to create
+ * child processes. In this case, child process executes the first command and
+ * the parent process executes the second command.
  *
- * - pipe: function that creates a pipe.
- * 
- * - fork: function that creates a child process.
- * 
- * - dup2: function that duplicates a file descriptor and redirects it to
- * another file descriptor.
- *  * 
- * @param: pipex: pointer to the pipex struct.
+ * @param: *pipex: pointer to the pipex struct.
+ * @variables: fd[2]: array of two integers that will be used to store the file
+
+	* @variables: pid: variable that will store the process id of the child process.
  *
- * @return: Returns is_true if the arguments are valid, is_false otherwise.
+ * @return: This is a void function, so it does not return a value.
  *
  */
 
 void	exec_cmds(t_pipex *pipex)
-{
+{	
 	int		pipefd[2];
 	pid_t	pid;
 
 	if (pipe(pipefd) == -1)
 	{
 		ft_putstr_fd("Error: pipe failed\n", 2);
-		close(pipex->in_fd);
-		close(pipex->out_fd);
-		exit(1);
+		return ;
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		ft_putstr_fd("Error: fork failed\n", 2);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		close(pipex->in_fd);
-		close(pipex->out_fd);
-		exit(1);
+		return ;
 	}
 	else if (pid == 0)
-		exec_child(pipex, pipefd);
+		child_process(pipex, pipefd);
 	else
-		exec_parents(pipex, pipefd);
+		parent_process(pipex, pipefd);
 }
 
 /**
- * Function: exec_child
+ * Function: child_process
  * -----------------
  * Function to be executed by the child process. This function redirects the
  * standard input to the input file and the standard output to the pipe. Then
@@ -89,27 +67,21 @@ void	exec_cmds(t_pipex *pipex)
  *
  */
 
-void	exec_child(t_pipex *pipex, int pipefd[2])
+void	child_process(t_pipex *pipex, int pipefd[2])
 {
 	dup2(pipex->in_fd, STDIN_FILENO);
-	close(pipex->in_fd);
 	dup2(pipefd[1], STDOUT_FILENO);
-	close(pipex->out_fd);
 	close(pipefd[0]);
-	if (!pipex->cmd_paths[0])
-	{
-		ft_putstr_fd("Error: command not found\n", 2);
-		return ;
-	}
 	execve(pipex->cmd_paths[0], pipex->cmd_args[0], NULL);
 }
 
 /**
- * Function: exec_parents
+ * Function: parent_process
  * -----------------
- * Function to be executed by the parent process. This function redirects the
- * standard input to the pipe and the standard output to the output file. Then
- * it executes the second command. 
+ * Function to be executed by the parent process. This function waits for the
+ * child process to finish, and then redirects the standard output to the
+ * output file and the standard input to the pipe. Then it executes the second
+ * command.
  * 
  * @param: *pipex: pointer to the pipex struct.
  * @param: pipefd: array of two integers that will be used to store the file
@@ -120,10 +92,10 @@ void	exec_child(t_pipex *pipex, int pipefd[2])
  *
  */
 
-void	exec_parents(t_pipex *pipex, int pipefd[2])
+void	parent_process(t_pipex *pipex, int pipefd[2])
 {
-	int		status;
 	pid_t	pid;
+	int		status;
 
 	pid = wait(&status);
 	if (pid == -1)
@@ -131,15 +103,8 @@ void	exec_parents(t_pipex *pipex, int pipefd[2])
 		ft_putstr_fd("Error: wait failed\n", 2);
 		return ;
 	}
-	close(pipefd[1]);
 	dup2(pipefd[0], STDIN_FILENO);
-	close(pipefd[0]);
 	dup2(pipex->out_fd, STDOUT_FILENO);
-	close(pipex->out_fd);
-	if (!pipex->cmd_paths[1])
-	{
-		ft_putstr_fd("Error: command not found\n", 2);
-		command_not_found(pipex);
-	}
+	close(pipefd[1]);
 	execve(pipex->cmd_paths[1], pipex->cmd_args[1], NULL);
 }

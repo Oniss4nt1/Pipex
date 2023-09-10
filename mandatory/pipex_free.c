@@ -30,7 +30,7 @@ void	free_cmd_paths(t_pipex *pipex)
 void	free_cmd_args(t_pipex *pipex)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (pipex->cmd_args[i])

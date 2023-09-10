@@ -84,13 +84,11 @@ t_bool	check_args(int argc, char **argv, t_pipex *pipex)
  *
  */
 
-void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
+void	allocate_memory(t_pipex *pipex)
 {
 	int	i;
-	int j;
 
 	i = 0;
-	j = 0;
 	pipex->cmd_paths = malloc(sizeof(char *) * (pipex->cmd_count + 1));
 	pipex->cmd_args = malloc(sizeof(char **) * (pipex->cmd_count + 1));
 	if (!pipex->cmd_paths || !pipex->cmd_args)
@@ -98,14 +96,20 @@ void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 		ft_putstr_fd("Error: malloc failed\n", 2);
 		return ;
 	}
-
-	while (j < pipex->cmd_count + 1)
+	while (i < pipex->cmd_count + 1)
 	{
-		pipex->cmd_paths[j] = NULL;
-		pipex->cmd_args[j] = NULL;
-		j++;
+		pipex->cmd_paths[i] = NULL;
+		pipex->cmd_args[i] = NULL;
+		i++;
 	}
+}
 
+void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
+{
+	int	i;
+
+	i = 0;
+	allocate_memory(pipex);
 	while (i < pipex->cmd_count)
 	{
 		pipex->cmd_args[i] = ft_split(argv[i + 2], ' ');
@@ -120,6 +124,19 @@ void	ft_parse_cmds(char **argv, t_pipex *pipex, char **envp)
 	pipex->cmd_paths[i] = NULL;
 	pipex->cmd_args[i] = NULL;
 }
+
+/**
+ * Function: command_not_found
+ * -----------------
+ * This function is called when the command is not found.
+ * It prints an error message, frees the memory, closes the
+ * file descriptors and exits the program.
+ *
+ * @param: *pipex: pointer to the pipex struct.
+ *
+ * @return: Returns is_true if the arguments are valid, is_false otherwise.
+ *
+ */
 
 void	command_not_found(t_pipex *pipex)
 {

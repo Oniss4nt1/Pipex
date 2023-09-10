@@ -12,7 +12,22 @@
 
 #include "pipex.h"
 
-char	*get_path(char **envp)
+char	*search_path(char **envp);
+char	*test_cmd_path(char **dirs, char *cmd);
+
+char	*build_cmd_path(char *cmd, char **envp)
+{
+	char	*path;
+	char	**dirs;
+
+	if (!cmd || !*cmd)
+		return (NULL);
+	path = search_path(envp);
+	dirs = ft_split(path, ':');
+	return (test_cmd_path(dirs, cmd));
+}
+
+char	*search_path(char **envp)
 {
 	int	i;
 
@@ -26,19 +41,13 @@ char	*get_path(char **envp)
 	return (NULL);
 }
 
-char	*build_cmd_path(char *cmd, char **envp)
+char	*test_cmd_path(char **dirs, char *cmd)
 {
 	int		i;
-	char	*path;
-	char	**dirs;
-	char	*cmd_path;
 	char	*temp;
+	char	*cmd_path;
 
 	i = 0;
-	if (!cmd || !*cmd)
-		return (NULL);
-	path = get_path(envp);
-	dirs = ft_split(path, ':');
 	while (dirs[i])
 	{
 		temp = ft_strjoin(dirs[i], "/");

@@ -20,7 +20,8 @@ HEADER 		= ./mandatory/
 
 SUBDIRS       = mandatory bonus
 MAND_SRCS     = pipex.c pipex_utils.c pipex_exec.c pipex_free.c main.c
-BONUS_SRCS    = pipex_bonus.c pipex_utils_bonus.c pipex_exec_bonus.c heredoc_bonus.c pipex_free_bonus.c main_bonus.c
+BONUS_SRCS    = pipex_bonus.c pipex_utils_bonus.c pipex_exec_bonus.c heredoc_bonus.c \
+				pipex_check_bonus.c pipex_free_bonus.c main_bonus.c
 
 SRCS 			= $(addprefix ./mandatory/, $(MAND_SRCS))
 SRCS_BONUS 		= $(addprefix ./bonus/, $(BONUS_SRCS))

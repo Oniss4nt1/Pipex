@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "../libft/include/libft.h"
 # include <fcntl.h>
@@ -44,24 +44,28 @@ void		init_pipex(t_pipex *pipex);
 //########################### CHECKS ###########################################
 
 t_bool		check_args(int argc, char **argv, t_pipex *pipex);
+t_bool		check_heredoc(int argc, char **argv, t_pipex *pipex);
+t_bool		check_files(int argc, char **argv, t_pipex *pipex);
 void		command_not_found(t_pipex *pipex);
-
 
 //########################### PARSING AND PATHS ###############################
 
+void		allocate_memory(t_pipex *pipex);
 void		ft_parse_cmds(char **argv, t_pipex *pipex, char **envp);
 char		*get_path(char **envp);
 char		*build_cmd_path(char *cmd, char **envp);
+char		*search_path(char **envp);
+char		*test_cmd_path(char **dirs, char *cmd);
 
 //########################### EXECUTION ########################################
 
 void		exec_cmds(t_pipex *pipex);
-void 		exec_child(t_pipex *pipex, int current_int_fd, int *fd, int i);
-void    	exec_parent(pid_t pid, int *fd, int *current_in_fd, int *status);
+void		child_process(t_pipex *pipex, int input_fd, int *fd, int i);
+void		parent_process(int input_fd, int *fd);
 
 //########################### HEREDOC ##########################################
 
-void	handle_heredoc(t_pipex *pipex);
+void		handle_heredoc(t_pipex *pipex);
 
 //########################### FREE #############################################
 
