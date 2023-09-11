@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 18:48:21 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/08 16:52:29 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/11 10:36:06 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
  */
 
 void	exec_cmds(t_pipex *pipex)
-{	
+{
 	int		pipefd[2];
 	pid_t	pid;
 

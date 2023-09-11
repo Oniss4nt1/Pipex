@@ -6,13 +6,11 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 18:49:34 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/08 11:21:58 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/11 11:56:11 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <string.h>
-#include <stdio.h>
 
 /**
  * Function: handle_heredoc

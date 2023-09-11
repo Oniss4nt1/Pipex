@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:37 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/08 15:23:40 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/11 10:35:10 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,11 @@
  * and the child processes execute the commands.
  *
  * @param: *pipex: pointer to the pipex struct.
- * @variables: fd[2]: array of two integers that will be used to store the file
- * @variables: input_fd: file descriptor of the input file,
-	used for the infile and
- * for the output of the previous command.
-
-	* @variables: pid: variable that will store the process id of the child process.
- * @variables: i: index of the command.
- *
+ * @var: fd[2]: array of two integers that will be used to store the file
+ * @var: input_fd: file descriptor of the input file,
+ * used for the infile and for the output of the previous command.
+ * @var: pid: variable that will store the process id of the child process.
+ * @var: i: index of the command.
  * @return: This is a void function, so it does not return a value.
  *
  */

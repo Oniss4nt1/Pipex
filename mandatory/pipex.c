@@ -6,14 +6,11 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/25 15:52:23 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/08 17:28:40 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/11 10:34:29 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include <stdio.h>
-
-void	command_not_found(t_pipex *pipex);
 
 /**
  * Function: init_pipex

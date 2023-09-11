@@ -37,7 +37,7 @@ OBJDIR = ./objs
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
-LIBFT_MAKE = $(MAKE) -C $(LIBFT)
+LIBFT_MAKE = $(MAKE) -C $(LIBFT) --no-print-directory --silent
 LIBFT_LIB = $(LIBFT)/libft.a
 
 ############################# Rules ########################################
@@ -89,12 +89,12 @@ leaks:
 
 clean:
 	@rm -rf $(OBJDIR) $(OBJDIR_BONUS)
-	@echo "$(YELLOW )pipex objects deleted$(RESET)"
+	@echo "$(YELLOW)Pipex objects deleted$(RESET)"
 	@$(LIBFT_MAKE) clean
 
 fclean: clean
 	@rm -f $(LIBFT_LIB) $(NAME) $(NAME_BONUS)
-	@echo "$(YELLOW)pipex deleted$(RESET)"
+	@echo "$(YELLOW)Pipex deleted$(RESET)"
 	@$(LIBFT_MAKE) fclean
 
 re: fclean all
