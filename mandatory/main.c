@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 18:48:37 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/08 17:16:52 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:55:30 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 		cleanup(&pipex);
 		return (1);
 	}
-	ft_parse_cmds(argv, &pipex, envp);
+	parse_cmds(argv, &pipex, envp);
 	exec_cmds(&pipex);
 	close(pipex.in_fd);
 	close(pipex.out_fd);
