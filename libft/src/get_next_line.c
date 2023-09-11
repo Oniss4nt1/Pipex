@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:18:24 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/07 16:50:10 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:30:58 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_next_line(int fd)
 {
 	static char	*line;
 	char		*current_line;
-	
+
 	if (fd < 0 && BUFFER_SIZE <= 0)
 		return (NULL);
 	line = read_lines(fd, line);
