@@ -1,8 +1,8 @@
-#include "minunit.h"
+#include "../minunit.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../mandatory/pipex.h"
+#include "../../bonus/pipex_bonus.h"
 
 /**
  * Function: run_command
@@ -55,10 +55,10 @@ char    *read_file(char *filename)
     return (content);
 }
 
-MU_TEST(test_grep_backslash)
+MU_TEST(test_bonus_grep_sort_count)
 {
-	run_command("../pipex ../infile \"echo Hello | World\" \"grep |\" ../outfile_result");
-    run_command("< ../infile echo \"Hello | World\" | grep \"|\" > ../outfile_expected");
+	run_command("../pipex_bonus ../Makefile \"cat\" \"tr A-Z a-z\" \"tr !-a c-y\" \"tr @-b 1-d\" \"tr +-e 2-f\" \"tr 0-g 3-h\" \"tr b-i @-s\" ../outfile_result");
+    run_command("< ../Makefile cat | tr 'A-Z' 'a-z' | tr '!-a' 'c-y' | tr '@-b' '1-d' | tr '+-e' '2-f' | tr '0-g' '3-h' | tr 'b-i' '@-s' > ../outfile_expected");
 
     char *pipex_output = read_file("../outfile_result");
     char *shell_output = read_file("../outfile_expected");
@@ -73,7 +73,7 @@ MU_TEST(test_grep_backslash)
 
 MU_TEST_SUITE(test_suite)
 {
-	MU_RUN_TEST(test_grep_backslash);
+	MU_RUN_TEST(test_bonus_grep_sort_count);
 }
 
 int main(void)

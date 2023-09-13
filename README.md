@@ -36,19 +36,23 @@
 
 > Já o bônus é dividido em duas partes. A primeira é a implementação de um número ilimitado de comandos (aka múltiplos pipes), e a segunda é a implementação de parte do heredoc, mais especificamente, apenas a variante dos operadores de redirecionamento '<<' e '>>', além do delimitador. No heredoc, o operador '<<' é usado para redirecionar a entrada do stdin para um comando, isso é parte da sintáxe básica ao usar o heredoc. Já o operador '>>' é usado para redirecionar a saída do stdout para um arquivo, muito semelhante ao que o operador '>' faz, entretanto a diferença é que o operador '>>' não sobrescreve o conteúdo do arquivo, ele apenas adiciona a saída do stdout no final do arquivo. Abaixo estão as formas de utilizar os argumentos com múltiplos pipes e heredoc:
 
+> Multi pipes:
 ```bash
-Multi-pipes:
 ./pipex_bonus infile "cat" "cmd1" "cmd2" "cmd3" "cmd4" "cmdN" outfile
-
-O comando acima é equivalente a esse comando no shell:
+```
+> O comando acima é equivalente a esse comando no shell:
+```bash
 < infile cat | cmd1 | cmd2 | cmd3 | cmd4 | cmdN > outfile
+```
 
-Heredoc:
+> Heredoc:
+```bash
 ./pipex_bonus here_doc LIMITER "cmd1" "cmd2" "cmd3" "cmdN" outfile
+```
 
-O comando acima é equivalente a esse comando no shell:
+> O comando do heredoc do shell é esse:
+```bash
 cmd1 << LIMITER cmd2 | cmd3 | cmdN >> outfile
-
 ```
 
 # :video_game: Principais funções utilizadas

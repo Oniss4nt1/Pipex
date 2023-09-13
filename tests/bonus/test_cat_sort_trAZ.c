@@ -1,8 +1,8 @@
-#include "minunit.h"
+#include "../minunit.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../mandatory/pipex.h"
+#include "../../bonus/pipex_bonus.h"
 
 /**
  * Function: run_command
@@ -55,10 +55,10 @@ char    *read_file(char *filename)
     return (content);
 }
 
-MU_TEST(test_list_and_filter_c_files)
+MU_TEST(test_bonus_grep_sort_count)
 {
-	run_command("../pipex ../infile \"ls -l\" \"grep \\.c$\" ../outfile_result");
-    run_command("< ../infile ls -l| grep '\\.c$' > ../outfile_expected");
+	run_command("../pipex_bonus ../infile \"cat\" \"sort\" \"tr a-z A-Z\" ../outfile_result");
+    run_command("< ../infile cat | sort | tr a-z A-Z > ../outfile_expected");
 
     char *pipex_output = read_file("../outfile_result");
     char *shell_output = read_file("../outfile_expected");
@@ -73,7 +73,7 @@ MU_TEST(test_list_and_filter_c_files)
 
 MU_TEST_SUITE(test_suite)
 {
-	MU_RUN_TEST(test_list_and_filter_c_files);
+	MU_RUN_TEST(test_bonus_grep_sort_count);
 }
 
 int main(void)

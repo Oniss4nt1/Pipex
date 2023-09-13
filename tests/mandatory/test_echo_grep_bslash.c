@@ -1,8 +1,8 @@
-#include "minunit.h"
+#include "../minunit.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../mandatory/pipex.h"
+#include "../../mandatory/pipex.h"
 
 /**
  * Function: run_command
@@ -55,10 +55,10 @@ char    *read_file(char *filename)
     return (content);
 }
 
-MU_TEST(test_list_and_count_number_of_lines)
+MU_TEST(test_grep_backslash)
 {
-	run_command("../pipex ../infile \"ls -l\" \"wc -l\" ../outfile_result");
-    run_command("< ../infile ls -l | wc -l > ../outfile_expected");
+	run_command("../pipex ../infile \"echo Hello | World\" \"grep |\" ../outfile_result");
+    run_command("< ../infile echo \"Hello | World\" | grep \"|\" > ../outfile_expected");
 
     char *pipex_output = read_file("../outfile_result");
     char *shell_output = read_file("../outfile_expected");
@@ -73,7 +73,7 @@ MU_TEST(test_list_and_count_number_of_lines)
 
 MU_TEST_SUITE(test_suite)
 {
-	MU_RUN_TEST(test_list_and_count_number_of_lines);
+	MU_RUN_TEST(test_grep_backslash);
 }
 
 int main(void)
