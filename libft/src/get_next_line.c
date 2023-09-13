@@ -6,12 +6,11 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:18:24 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/11 14:30:58 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:08:19 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
-#include <stdio.h>
 
 char		*read_lines(int fd, char *current_line);
 static char	find_breakline(char *str);

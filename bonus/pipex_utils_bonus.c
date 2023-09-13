@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:42 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/07 14:54:46 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:24:51 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,23 @@ char	*get_path(char **envp)
  * Function: build_cmd_path
  * -----------------
  * This function is used to build the path of the command. It receives the name
- * of the command and the environment variables. It gets the PATH variable from
- * the environment variables, and splits it into an array of strings. Then, it
- * iterates through the array of strings, and joins each string with the command
- * name. If the command works, it returns the path of the command. If the command
- * does not work, it frees the memory and returns NULL.
+ * of the command and the environment variables. First, this function checks
+ * if the command is valid, if it is not, it returns NULL. Then, it calls the
+ * function search_path, which returns the PATH variable, and splits it into
+ * an array of strings. Then, it calls the function test_cmd_path, which tests
+ * if the command exists in any of the directories of the PATH variable. If the
+ * command exists, it returns the path of the command, if it does not, it returns
+ * NULL.
  * 
  * @param: *cmd: pointer to the string that contains the name of the command.
  * @param: **envp: pointer to the array of strings that contains the environment
  * variables.
- * @var: i: index of the array of strings.
  * @var: *path: pointer to the string that contains the PATH variable.
  * @var: **dirs: pointer to the array of strings that contains the directories, 
  * aka the result of splitting the PATH variable.
- * @var: *temp: pointer to the string that contains the temporary path of the
- * command, this is the command path without the command name.
- * @var: *cmd_path: pointer to the string that contains the path of the command,
- * this is the command path with the command name.
  *
- * @return: This is a void function, so it does not return a value.
+ * @return: Returns a pointer to the string that contains the path of the command
+ * if the command exists, or NULL if it does not.
  *
  */
 
@@ -79,6 +77,24 @@ char	*build_cmd_path(char *cmd, char **envp)
 	return (test_cmd_path(dirs, cmd));
 }
 
+/**
+ * Function: search_path
+ * -----------------
+ * This function is used to get the PATH variable from the environment variables.
+ * It iterates through the environment variables, and compares each one with the
+ * string "PATH=". If the string is found, the function returns a pointer to the
+ * string that contains the PATH variable. Note that the function returns the
+ * string without the "PATH=" part.
+ * 
+ * @param: **envp: pointer to the array of strings that contains the environment
+ * variables.
+ * @var: i: integer that is used to iterate through the environment variables.
+ *
+ * @return: Returns a pointer to the string that contains the PATH variable or
+ * NULL if it does not exist.
+ *
+ */
+
 char	*search_path(char **envp)
 {
 	int	i;
@@ -92,6 +108,31 @@ char	*search_path(char **envp)
 	}
 	return (NULL);
 }
+
+/**
+ * Function: test_cmd_path
+ * -----------------
+ * This function is used to test if the command exists in any of the directories
+ * of the PATH variable. It receives an array of strings that contains the directories
+ * splitted from the PATH variable, and the name of the command. It iterates through
+ * the array of strings, and joins each directory with the command. Then, it tests
+ * if the command exists in the directory. If it does, it returns the path of the
+ * command, if it does not, it returns NULL.
+ * 
+ * @param: **dirs: pointer to the array of strings that contains the directories,
+ * aka the result of splitting the PATH variable.
+ * @param: *cmd: pointer to the string that contains the name of the command.
+ * @var: i: integer that is used to iterate through the environment variables.
+ * @var: *temp: pointer to the string that contains the directory, this is used
+ * to join the directory with the '/' character. After that, it is freed.
+ * @var: *cmd_path: This is used to join the directory with the command. After
+ * that, this is tested if it exists. If it does, it is returned, if it does not,
+ * it is freed.
+ *
+ * @return: Returns a pointer to the string that contains the PATH variable or
+ * NULL if it does not exist.
+ *
+ */
 
 char	*test_cmd_path(char **dirs, char *cmd)
 {

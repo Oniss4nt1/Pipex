@@ -6,12 +6,11 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:45:37 by brunrodr          #+#    #+#             */
-/*   Updated: 2023/09/11 10:35:10 by brunrodr         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:08:09 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <stdio.h>
 
 /**
  * Function: exec_cmds
@@ -64,13 +63,13 @@ void	exec_cmds(t_pipex *pipex)
 /**
  * Function: child_process
  * -----------------
- * This function is executed by the child process. It redirects the input and
+ * This function is executed by the child process. It redirects the current and
  * output file descriptors to the pipe, and then executes the command. If the
  * command is the last one, the output file descriptor is redirected to the
  * outfile. When the command is executed, the child process exits.
  *
  * @param: *pipex: pointer to the pipex struct.
- * @var: input_fd: file descriptor of the input file, used for the infile and
+ * @var: input_fd: file descriptor of the current file, used for the infile and
  * for the output of the previous command.
  * @var: *fd: pointer to the array of two integers that will be used to store
  * the file descriptors of the pipe.
